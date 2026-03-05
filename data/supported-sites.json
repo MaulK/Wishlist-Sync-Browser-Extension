@@ -1,0 +1,395 @@
+{
+    "sites": [
+        {
+            "id": "amazon",
+            "name": "Amazon",
+            "domains": [
+                "amazon.com",
+                "amazon.co.uk",
+                "amazon.ca",
+                "amazon.de",
+                "amazon.fr",
+                "amazon.es",
+                "amazon.it",
+                "amazon.in",
+                "amazon.com.au",
+                "amazon.co.jp"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check",
+                "wishlist_import"
+            ],
+            "selectors": {
+                "title": "#productTitle, #title h1",
+                "price": "#priceblock_ourprice, #priceblock_dealprice, .a-price .a-offscreen",
+                "image": "#landingImage, #imgBlkFront, .a-dynamic-image",
+                "originalPrice": "#priceblock_ourprice_row .a-text-strike, .a-price.a-text-price .a-offscreen",
+                "availability": "#availability, #availability span"
+            },
+            "color": "#ff9900",
+            "icon": "🛒"
+        },
+        {
+            "id": "ebay",
+            "name": "eBay",
+            "domains": [
+                "ebay.com",
+                "ebay.co.uk",
+                "ebay.ca",
+                "ebay.de",
+                "ebay.fr",
+                "ebay.es",
+                "ebay.it",
+                "ebay.com.au"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check",
+                "auction_tracking"
+            ],
+            "selectors": {
+                "title": ".x-item-title-label, .x-item-title__mainTitle",
+                "price": ".x-price-primary, .x-price-amount",
+                "image": ".ux-image-carousel img, .x-image-carousel img",
+                "availability": ".d-availability, .x-availability"
+            },
+            "color": "#e53238",
+            "icon": "🏷️"
+        },
+        {
+            "id": "walmart",
+            "name": "Walmart",
+            "domains": [
+                "walmart.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": "[data-testid=\"product-title\"], .prod-ProductTitle",
+                "price": "[data-testid=\"price-current\"], .price-current",
+                "image": ".prod-HeroImage-container img, [data-testid=\"product-image\"]",
+                "availability": "[data-testid=\"availability\"], .prod-availability"
+            },
+            "color": "#0071dc",
+            "icon": "⭐"
+        },
+        {
+            "id": "target",
+            "name": "Target",
+            "domains": [
+                "target.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": "[data-test=\"product-title\"], .h-text-bs",
+                "price": "[data-test=\"product-price\"], .h-text-xxl",
+                "image": ".styles__StyledImage-sc-1k0k3v4-0 img",
+                "availability": "[data-test=\"shippingAvailability\"], .availability"
+            },
+            "color": "#cc0000",
+            "icon": "🎯"
+        },
+        {
+            "id": "bestbuy",
+            "name": "Best Buy",
+            "domains": [
+                "bestbuy.com",
+                "bestbuy.ca"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": ".sku-title, h1.product-title",
+                "price": ".price-current, .price-hero",
+                "image": ".product-image img, .primary-image",
+                "availability": ".availability, .shipping-message"
+            },
+            "color": "#004b87",
+            "icon": "🔷"
+        },
+        {
+            "id": "etsy",
+            "name": "Etsy",
+            "domains": [
+                "etsy.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": "[data-buy-box-listing-title], .wt-text-body-03",
+                "price": "[data-selector=\"price-current\"], .wt-text-title-03",
+                "image": ".wt-max-width-full, .carousel-image",
+                "availability": ".wt-text-body-01, .inventory-quantity"
+            },
+            "color": "#f56400",
+            "icon": "🧶"
+        },
+        {
+            "id": "aliexpress",
+            "name": "AliExpress",
+            "domains": [
+                "aliexpress.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": ".product-title, .title-text",
+                "price": ".product-price-value, .snow-price",
+                "image": ".image-view-item img, .sku-item-image",
+                "availability": ".product-stock, .availability"
+            },
+            "color": "#ff4747",
+            "icon": "🌍"
+        },
+        {
+            "id": "asos",
+            "name": "ASOS",
+            "domains": [
+                "asos.com",
+                "asos.de",
+                "asos.fr"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": "[data-id=\"product-title\"], .product-name",
+                "price": "[data-id=\"current-price\"], .current-price",
+                "image": ".product-gallery img, .product-image",
+                "availability": ".stock-level, .availability"
+            },
+            "color": "#000000",
+            "icon": "👗"
+        },
+        {
+            "id": "zara",
+            "name": "Zara",
+            "domains": [
+                "zara.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": ".product-detail-info__name, .product-name",
+                "price": ".price-current, .price",
+                "image": ".media-image__image img, .product-image",
+                "availability": ".stock, .availability"
+            },
+            "color": "#000000",
+            "icon": "👔"
+        },
+        {
+            "id": "nike",
+            "name": "Nike",
+            "domains": [
+                "nike.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": "[data-test=\"product-title\"], .headline-2",
+                "price": "[data-test=\"product-price\"], .product-price",
+                "image": ".css-13w0u5e img, .product-image",
+                "availability": "[data-test=\"product-availability\"], .availability"
+            },
+            "color": "#111111",
+            "icon": "👟"
+        },
+        {
+            "id": "tokopedia",
+            "name": "Tokopedia",
+            "domains": [
+                "tokopedia.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": "[data-testid=\"lblPDPDetailProductName\"], .product-name",
+                "price": "[data-testid=\"lblPDPDetailProductPrice\"], .price",
+                "image": "[data-testid=\"PDPMainImage\"], .product-image",
+                "availability": "[data-testid=\"lblPDPDetailProductStock\"], .stock"
+            },
+            "color": "#03ac0e",
+            "icon": "🛍️"
+        },
+        {
+            "id": "shopee",
+            "name": "Shopee",
+            "domains": [
+                "shopee.com",
+                "shopee.co.id",
+                "shopee.sg",
+                "shopee.my"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": ".shopee-product-detail__product__title, .product-briefing",
+                "price": ".shopee-product-detail__product__price, .price",
+                "image": "[data-testid=\"PDPMainImage\"], .product-image",
+                "availability": ".shopee-product-detail__product__stock, .stock"
+            },
+            "color": "#ee4d2d",
+            "icon": "🛒"
+        },
+        {
+            "id": "tiktok",
+            "name": "TikTok Shop",
+            "domains": [
+                "tiktok.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": ".product-title, .product-name",
+                "price": ".product-price, .price",
+                "image": ".product-image img, .image-container img",
+                "availability": ".stock, .availability"
+            },
+            "color": "#000000",
+            "icon": "🎵"
+        },
+        {
+            "id": "blibli",
+            "name": "Blibli",
+            "domains": [
+                "blibli.com"
+            ],
+            "supportedFeatures": [
+                "product_detection",
+                "price_tracking",
+                "availability_check"
+            ],
+            "selectors": {
+                "title": ".product-name, .product-title",
+                "price": ".product-price, .price",
+                "image": ".product-image img, .image-container img",
+                "availability": ".stock, .availability"
+            },
+            "color": "#f57224",
+            "icon": "📦"
+        }
+    ],
+    "categories": [
+        {
+            "id": "electronics",
+            "name": "Electronics",
+            "icon": "📱"
+        },
+        {
+            "id": "clothing",
+            "name": "Clothing",
+            "icon": "👕"
+        },
+        {
+            "id": "home",
+            "name": "Home & Garden",
+            "icon": "🏠"
+        },
+        {
+            "id": "books",
+            "name": "Books",
+            "icon": "📚"
+        },
+        {
+            "id": "sports",
+            "name": "Sports",
+            "icon": "⚽"
+        },
+        {
+            "id": "beauty",
+            "name": "Beauty",
+            "icon": "💄"
+        },
+        {
+            "id": "toys",
+            "name": "Toys",
+            "icon": "🧸"
+        },
+        {
+            "id": "uncategorized",
+            "name": "Uncategorized",
+            "icon": "📦"
+        }
+    ],
+    "currencies": [
+        {
+            "code": "USD",
+            "symbol": "$",
+            "name": "US Dollar"
+        },
+        {
+            "code": "EUR",
+            "symbol": "€",
+            "name": "Euro"
+        },
+        {
+            "code": "GBP",
+            "symbol": "£",
+            "name": "British Pound"
+        },
+        {
+            "code": "JPY",
+            "symbol": "¥",
+            "name": "Japanese Yen"
+        },
+        {
+            "code": "IDR",
+            "symbol": "Rp",
+            "name": "Indonesian Rupiah"
+        },
+        {
+            "code": "CAD",
+            "symbol": "$",
+            "name": "Canadian Dollar"
+        },
+        {
+            "code": "AUD",
+            "symbol": "$",
+            "name": "Australian Dollar"
+        },
+        {
+            "code": "INR",
+            "symbol": "₹",
+            "name": "Indian Rupee"
+        }
+    ],
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-15"
+}

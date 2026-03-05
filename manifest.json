@@ -1,0 +1,135 @@
+{
+  "manifest_version": 3,
+  "name": "Wishlist Sync Browser Extension",
+  "version": "1.0.0",
+  "description": "Sync your wishlists across multiple shopping websites with automatic detection, price tracking, and unified management.",
+  "author": "Wishlist Sync Team",
+  "homepage_url": "https://github.com/wishlist-sync/wishlist-sync-extension",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "notifications",
+    "alarms",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.amazon.com/*",
+    "https://*.amazon.co.uk/*",
+    "https://*.amazon.ca/*",
+    "https://*.amazon.de/*",
+    "https://*.amazon.fr/*",
+    "https://*.amazon.es/*",
+    "https://*.amazon.it/*",
+    "https://*.amazon.in/*",
+    "https://*.amazon.com.au/*",
+    "https://*.amazon.co.jp/*",
+    "https://*.ebay.com/*",
+    "https://*.ebay.co.uk/*",
+    "https://*.ebay.ca/*",
+    "https://*.ebay.de/*",
+    "https://*.ebay.fr/*",
+    "https://*.ebay.es/*",
+    "https://*.ebay.it/*",
+    "https://*.ebay.com.au/*",
+    "https://*.walmart.com/*",
+    "https://*.target.com/*",
+    "https://*.bestbuy.com/*",
+    "https://*.bestbuy.ca/*",
+    "https://*.etsy.com/*",
+    "https://*.aliexpress.com/*",
+    "https://*.asos.com/*",
+    "https://*.asos.de/*",
+    "https://*.asos.fr/*",
+    "https://*.zara.com/*",
+    "https://*.nike.com/*",
+    "https://*.tokopedia.com/*",
+    "https://*.shopee.com/*",
+    "https://*.shopee.co.id/*",
+    "https://*.shopee.sg/*",
+    "https://*.shopee.my/*",
+    "https://*.tiktok.com/*",
+    "https://*.blibli.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Wishlist Sync"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.ca/*",
+        "https://*.amazon.de/*",
+        "https://*.amazon.fr/*",
+        "https://*.amazon.es/*",
+        "https://*.amazon.it/*",
+        "https://*.amazon.in/*",
+        "https://*.amazon.com.au/*",
+        "https://*.amazon.co.jp/*",
+        "https://*.ebay.com/*",
+        "https://*.ebay.co.uk/*",
+        "https://*.ebay.ca/*",
+        "https://*.ebay.de/*",
+        "https://*.ebay.fr/*",
+        "https://*.ebay.es/*",
+        "https://*.ebay.it/*",
+        "https://*.ebay.com.au/*",
+        "https://*.walmart.com/*",
+        "https://*.target.com/*",
+        "https://*.bestbuy.com/*",
+        "https://*.bestbuy.ca/*",
+        "https://*.etsy.com/*",
+        "https://*.aliexpress.com/*",
+        "https://*.asos.com/*",
+        "https://*.asos.de/*",
+        "https://*.asos.fr/*",
+        "https://*.zara.com/*",
+        "https://*.nike.com/*",
+        "https://*.tokopedia.com/*",
+        "https://*.shopee.com/*",
+        "https://*.shopee.co.id/*",
+        "https://*.shopee.sg/*",
+        "https://*.shopee.my/*",
+        "https://*.tiktok.com/*",
+        "https://*.blibli.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png",
+    "128": "icons/icon.svg"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "dashboard.html",
+        "settings.html",
+        "item-details.html",
+        "login.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
+  }
+}
