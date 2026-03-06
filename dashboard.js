@@ -44,6 +44,9 @@ let currentView = 'grid'; // 'grid' or 'list'
  */
 async function init() {
     try {
+        const settings = await StorageManager.getSettings();
+        window.USER_CURRENCY = settings.currency;
+
         // Load items from storage
         await loadItems();
 
@@ -86,8 +89,8 @@ async function loadStats() {
         if (response.success) {
             const stats = response.stats;
             document.getElementById('totalItems').textContent = stats.totalItems;
-            document.getElementById('totalValue').textContent = formatPrice(stats.totalValue);
-            document.getElementById('totalSavings').textContent = formatPrice(stats.totalSavings);
+            document.getElementById('totalValue').textContent = formatPrice(stats.totalValue, 'USD');
+            document.getElementById('totalSavings').textContent = formatPrice(stats.totalSavings, 'USD');
             document.getElementById('priceDrops').textContent = stats.priceDrops;
         }
     } catch (error) {
@@ -205,15 +208,15 @@ function renderItem(item) {
         ${hasDiscount ? `<span class="discount-badge">-${item.discount}%</span>` : ''}
       </div>
       <div class="item-content">
-        <h3 class="item-title" title="${item.title}">${truncateText(item.title, 50)}</h3>
+        <h3 class="item-title" title="${item.title}">${item.title}</h3>
         <div class="item-meta">
           <span class="item-site">${item.site}</span>
           <span class="item-date">${formatDate(item.addedDate)}</span>
         </div>
         <div class="item-price-section">
-          <span class="item-price">${formatPrice(item.price)}</span>
+          <span class="item-price">${formatPrice(item.price, item.currency)}</span>
           ${item.originalPrice && item.originalPrice > item.price ?
-            `<span class="item-original-price">${formatPrice(item.originalPrice)}</span>` : ''
+            `<span class="item-original-price">${formatPrice(item.originalPrice, item.currency)}</span>` : ''
         }
         </div>
         ${item.tags && item.tags.length > 0 ? `

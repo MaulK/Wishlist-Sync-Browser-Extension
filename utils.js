@@ -12,19 +12,46 @@ function generateId() {
 }
 
 /**
+ * Convert foreign currency price to USD (estimated rates for dashboard aggregations)
+ * @param {number} price - Price value
+ * @param {string} currency - Currency code
+ * @returns {number} Value in USD
+ */
+function convertToUSD(price, currency) {
+    if (!price) return 0;
+    const rates = {
+        'USD': 1.0,
+        'EUR': 1.09,
+        'GBP': 1.28,
+        'IDR': 0.000064,
+        'MYR': 0.21,
+        'JPY': 0.0067,
+        'INR': 0.012,
+        'SGD': 0.75,
+        'CAD': 0.74,
+        'AUD': 0.65,
+        'HKD': 0.13
+    };
+    const rate = rates[currency && currency.toUpperCase()] || 1.0;
+    return price * rate;
+}
+
+/**
  * Format price for display
  * @param {number} price - Price value
  * @param {string} currency - Currency code (default: USD)
  * @returns {string} Formatted price string
  */
-function formatPrice(price, currency = 'USD') {
+function formatPrice(price, currency = null) {
     if (price === null || price === undefined || isNaN(price)) {
         return '$0.00';
     }
 
+    const curr = currency || window.USER_CURRENCY || 'USD';
+
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: currency,
+        currency: curr,
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     }).format(price);
@@ -94,24 +121,41 @@ function parsePrice(priceStr) {
 
     if (!cleaned) return null;
 
-    // Handle different decimal separators
-    const hasComma = cleaned.includes(',');
-    const hasDot = cleaned.includes('.');
+    const lastComma = cleaned.lastIndexOf(',');
+    const lastDot = cleaned.lastIndexOf('.');
 
     let numStr;
-
-    if (hasComma && hasDot) {
-        // If both, assume last one is decimal separator
+    if (lastComma !== -1 && lastDot !== -1) {
+        // Both exist, the last one is the decimal
+        const lastPunct = Math.max(lastComma, lastDot);
         numStr = cleaned.replace(/[.,]/g, (match, offset) => {
-            return offset === cleaned.lastIndexOf(match) ? '.' : '';
+            return offset === lastPunct ? '.' : '';
         });
-    } else if (hasComma) {
-        // Check if comma is decimal or thousands separator
+    } else if (lastComma !== -1) {
+        // Only comma
         const parts = cleaned.split(',');
-        if (parts.length === 2 && parts[1].length <= 2) {
+        // If there's only one comma and the part after it is not 3 digits, it's likely a decimal
+        if (parts.length === 2 && parts[1].length !== 3) {
             numStr = cleaned.replace(',', '.');
         } else {
+            // Thousands separator (e.g., "1,000", "1,000,000")
             numStr = cleaned.replace(/,/g, '');
+        }
+    } else if (lastDot !== -1) {
+        // Only dot
+        const parts = cleaned.split('.');
+        // Check if thousands separator (e.g., "1.000", "1.000.000")
+        let isThousands = parts.length > 1;
+        for (let i = 1; i < parts.length; i++) {
+            if (parts[i].length !== 3) {
+                isThousands = false;
+                break;
+            }
+        }
+        if (isThousands) {
+            numStr = cleaned.replace(/\./g, '');
+        } else {
+            numStr = cleaned; // Native parseFloat handles dot as decimal
         }
     } else {
         numStr = cleaned;
@@ -596,6 +640,7 @@ function searchItems(items, query, fields = ['title', 'tags', 'notes']) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         generateId,
+        convertToUSD,
         formatPrice,
         formatDate,
         formatDateTime,

@@ -198,6 +198,7 @@ async function handleAddToWishlist(item) {
             discount: item.originalPrice && item.price
                 ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
                 : 0,
+            currency: item.currency || 'USD',
             site: item.site,
             category: 'Uncategorized',
             tags: [],
@@ -343,10 +344,10 @@ async function getStats() {
         const items = result.wishlist || [];
 
         const totalItems = items.length;
-        const totalValue = items.reduce((sum, item) => sum + (item.price || 0), 0);
+        const totalValue = items.reduce((sum, item) => sum + convertToUSD(item.price || 0, item.currency), 0);
         const totalSavings = items.reduce((sum, item) => {
             if (item.originalPrice && item.originalPrice > item.price) {
-                return sum + (item.originalPrice - item.price);
+                return sum + convertToUSD(item.originalPrice - item.price, item.currency);
             }
             return sum;
         }, 0);
@@ -509,7 +510,7 @@ async function checkAllPrices() {
         // Notify user about price drops
         if (priceDrops.length > 0) {
             const message = priceDrops.length === 1
-                ? `"${truncateText(priceDrops[0].title, 30)}" is now ${formatPrice(priceDrops[0].price)}!`
+                ? `"${truncateText(priceDrops[0].title, 30)}" is now ${formatPrice(priceDrops[0].price, priceDrops[0].currency)}!`
                 : `${priceDrops.length} items have dropped in price!`;
 
             showNotification('Price Drop Alert', message);
@@ -847,20 +848,37 @@ function parsePrice(priceStr) {
     if (!priceStr) return null;
 
     const cleaned = priceStr.replace(/[^\d.,]/g, '');
-    const hasComma = cleaned.includes(',');
-    const hasDot = cleaned.includes('.');
+    if (!cleaned) return null;
+
+    const lastComma = cleaned.lastIndexOf(',');
+    const lastDot = cleaned.lastIndexOf('.');
 
     let numStr;
-    if (hasComma && hasDot) {
+    if (lastComma !== -1 && lastDot !== -1) {
+        const lastPunct = Math.max(lastComma, lastDot);
         numStr = cleaned.replace(/[.,]/g, (match, offset) => {
-            return offset === cleaned.lastIndexOf(match) ? '.' : '';
+            return offset === lastPunct ? '.' : '';
         });
-    } else if (hasComma) {
+    } else if (lastComma !== -1) {
         const parts = cleaned.split(',');
-        if (parts.length === 2 && parts[1].length <= 2) {
+        if (parts.length === 2 && parts[1].length !== 3) {
             numStr = cleaned.replace(',', '.');
         } else {
             numStr = cleaned.replace(/,/g, '');
+        }
+    } else if (lastDot !== -1) {
+        const parts = cleaned.split('.');
+        let isThousands = parts.length > 1;
+        for (let i = 1; i < parts.length; i++) {
+            if (parts[i].length !== 3) {
+                isThousands = false;
+                break;
+            }
+        }
+        if (isThousands) {
+            numStr = cleaned.replace(/\./g, '');
+        } else {
+            numStr = cleaned;
         }
     } else {
         numStr = cleaned;
@@ -870,14 +888,33 @@ function parsePrice(priceStr) {
     return isNaN(num) ? null : num;
 }
 
+function convertToUSD(price, currency) {
+    if (!price) return 0;
+    const rates = {
+        'USD': 1.0,
+        'EUR': 1.09,
+        'GBP': 1.28,
+        'IDR': 0.000064,
+        'MYR': 0.21,
+        'JPY': 0.0067,
+        'INR': 0.012,
+        'SGD': 0.75,
+        'CAD': 0.74,
+        'AUD': 0.65,
+        'HKD': 0.13
+    };
+    const rate = rates[currency && currency.toUpperCase()] || 1.0;
+    return price * rate;
+}
+
 /**
  * Format price for display
  */
-function formatPrice(price) {
+function formatPrice(price, currency = null) {
     if (price === null || price === undefined) return '$0.00';
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'USD'
+        currency: currency || 'USD'
     }).format(price);
 }
 

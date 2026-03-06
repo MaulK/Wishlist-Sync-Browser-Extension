@@ -284,10 +284,10 @@ class StorageManager {
             const items = await this.getAllItems();
 
             const totalItems = items.length;
-            const totalValue = items.reduce((sum, item) => sum + (item.price || 0), 0);
+            const totalValue = items.reduce((sum, item) => sum + convertToUSD(item.price || 0, item.currency), 0);
             const totalSavings = items.reduce((sum, item) => {
                 if (item.originalPrice && item.originalPrice > item.price) {
-                    return sum + (item.originalPrice - item.price);
+                    return sum + convertToUSD(item.originalPrice - item.price, item.currency);
                 }
                 return sum;
             }, 0);

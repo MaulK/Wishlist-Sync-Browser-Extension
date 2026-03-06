@@ -29,6 +29,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: parsePrice(originalPrice),
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Amazon',
                 availability: availability || 'Unknown'
             };
@@ -50,6 +51,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Amazon'
                     });
                 }
@@ -79,6 +81,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'eBay',
                 availability: availability || 'Unknown'
             };
@@ -100,6 +103,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'eBay'
                     });
                 }
@@ -129,6 +133,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Walmart',
                 availability: availability || 'Unknown'
             };
@@ -150,6 +155,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Walmart'
                     });
                 }
@@ -179,6 +185,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Target',
                 availability: availability || 'Unknown'
             };
@@ -200,6 +207,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Target'
                     });
                 }
@@ -229,6 +237,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Best Buy',
                 availability: availability || 'Unknown'
             };
@@ -250,6 +259,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Best Buy'
                     });
                 }
@@ -279,6 +289,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Etsy',
                 availability: availability || 'Unknown'
             };
@@ -300,6 +311,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Etsy'
                     });
                 }
@@ -330,6 +342,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'AliExpress',
                 availability: availability || 'Unknown'
             };
@@ -351,6 +364,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'AliExpress'
                     });
                 }
@@ -380,6 +394,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'ASOS',
                 availability: availability || 'Unknown'
             };
@@ -401,6 +416,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'ASOS'
                     });
                 }
@@ -430,6 +446,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Zara',
                 availability: availability || 'Unknown'
             };
@@ -451,6 +468,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Zara'
                     });
                 }
@@ -480,6 +498,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Nike',
                 availability: availability || 'Unknown'
             };
@@ -501,6 +520,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Nike'
                     });
                 }
@@ -531,6 +551,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Tokopedia',
                 availability: availability || 'Unknown'
             };
@@ -552,6 +573,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Tokopedia'
                     });
                 }
@@ -582,6 +604,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Shopee',
                 availability: availability || 'Unknown'
             };
@@ -603,6 +626,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Shopee'
                     });
                 }
@@ -633,6 +657,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'TikTok Shop',
                 availability: availability || 'Unknown'
             };
@@ -654,6 +679,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'TikTok Shop'
                     });
                 }
@@ -684,6 +710,7 @@ const SITE_SELECTORS = {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Blibli',
                 availability: availability || 'Unknown'
             };
@@ -705,6 +732,7 @@ const SITE_SELECTORS = {
                         image: image || '',
                         price: parsePrice(price),
                         originalPrice: null,
+                currency: extractCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                         site: 'Blibli'
                     });
                 }
@@ -733,29 +761,69 @@ function getCurrentSite() {
 /**
  * Parse price string to number
  */
+function extractCurrency(priceStr) {
+        if (!priceStr) return '';
+        const s = priceStr.toUpperCase();
+        if (s.includes('€') || s.includes('EUR')) return 'EUR';
+        if (s.includes('£') || s.includes('GBP')) return 'GBP';
+        if (s.includes('RP') || s.includes('IDR')) return 'IDR';
+        if (s.includes('RM') || s.includes('MYR')) return 'MYR';
+        if (s.includes('¥') || s.includes('JPY') || s.includes('RMB') || s.includes('CNY')) return 'JPY'; // assuming JPY for ¥
+        if (s.includes('₹') || s.includes('INR')) return 'INR';
+        if (s.includes('S$') || s.includes('SGD')) return 'SGD';
+        if (s.includes('C$') || s.includes('CAD')) return 'CAD';
+        if (s.includes('A$') || s.includes('AUD')) return 'AUD';
+        if (s.includes('HK$') || s.includes('HKD')) return 'HKD';
+        if (s.includes('CA$')) return 'CAD';
+        if (s.includes('AU$')) return 'AUD';
+        if (s.includes('US$') || s.includes('USD')) return 'USD';
+        if (s.includes('$')) return 'USD';
+        return '';
+}
+
 function parsePrice(priceStr) {
     if (!priceStr) return null;
 
-    // Remove currency symbols and non-numeric characters except decimal point
+    // Remove currency symbols and non-numeric characters except decimal point and comma
     const cleaned = priceStr.replace(/[^\d.,]/g, '');
 
-    // Handle different decimal separators
-    const hasComma = cleaned.includes(',');
-    const hasDot = cleaned.includes('.');
+    if (!cleaned) return null;
 
+    const lastComma = cleaned.lastIndexOf(',');
+    const lastDot = cleaned.lastIndexOf('.');
+    
     let numStr;
-    if (hasComma && hasDot) {
-        // If both, assume last one is decimal separator
+    if (lastComma !== -1 && lastDot !== -1) {
+        // Both exist, the last one is the decimal
+        const lastPunct = Math.max(lastComma, lastDot);
         numStr = cleaned.replace(/[.,]/g, (match, offset) => {
-            return offset === cleaned.lastIndexOf(match) ? '.' : '';
+            return offset === lastPunct ? '.' : '';
         });
-    } else if (hasComma) {
-        // Check if comma is decimal or thousands separator
+    } else if (lastComma !== -1) {
+        // Only comma
         const parts = cleaned.split(',');
-        if (parts.length === 2 && parts[1].length <= 2) {
+        // If there's only one comma and the part after it is not 3 digits, it's likely a decimal
+        if (parts.length === 2 && parts[1].length !== 3) {
             numStr = cleaned.replace(',', '.');
         } else {
+            // Thousands separator
             numStr = cleaned.replace(/,/g, '');
+        }
+    } else if (lastDot !== -1) {
+        // Only dot
+        const parts = cleaned.split('.');
+        // Check if thousands separator
+        let isThousands = parts.length > 1;
+        for (let i = 1; i < parts.length; i++) {
+            if (parts[i].length !== 3) {
+                isThousands = false;
+                break;
+            }
+        }
+        if (isThousands) {
+            numStr = cleaned.replace(/\./g, '');
+        } else {
+            numStr = cleaned;
         }
     } else {
         numStr = cleaned;

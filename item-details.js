@@ -61,6 +61,9 @@ async function init() {
             return;
         }
 
+        const settings = await chrome.storage.local.get('settings');
+        window.USER_CURRENCY = (settings.settings && settings.settings.currency) || 'USD';
+
         // Load item details
         await loadItemDetails();
 
@@ -131,11 +134,11 @@ function renderItemDetails() {
     itemUrl.textContent = currentItem.url;
 
     // Set price
-    itemPrice.textContent = formatPrice(currentItem.price);
+    itemPrice.textContent = formatPrice(currentItem.price, currentItem.currency);
 
     // Set original price
     if (currentItem.originalPrice && currentItem.originalPrice > currentItem.price) {
-        itemOriginalPrice.textContent = formatPrice(currentItem.originalPrice);
+        itemOriginalPrice.textContent = formatPrice(currentItem.originalPrice, currentItem.currency);
         itemOriginalPrice.classList.remove('hidden');
     } else {
         itemOriginalPrice.classList.add('hidden');
@@ -272,7 +275,7 @@ function renderPriceHistory() {
         ctx.fillStyle = '#1e293b';
         ctx.font = '12px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(formatPrice(point.price), x, y - 12);
+        ctx.fillText(formatPrice(point.price, currentItem.currency), x, y - 12);
         ctx.fillStyle = '#667eea';
     });
 

@@ -43,6 +43,10 @@ async function init() {
         console.log('Popup: Current tab:', tabs);
         currentTab = tabs[0];
 
+        // Fetch settings and set global currency
+        const settings = await StorageManager.getSettings();
+        window.USER_CURRENCY = settings.currency;
+
         // Load wishlist data
         console.log('Popup: Loading wishlist data...');
         await loadWishlistData();
@@ -171,8 +175,29 @@ function detectShoppingSite(url) {
  * Extract item data from the page (executed in content script context)
  */
 function extractItemData() {
+    function getCurrency(priceStr) {
+        if (!priceStr) return '';
+        const s = priceStr.toUpperCase();
+        if (s.includes('€') || s.includes('EUR')) return 'EUR';
+        if (s.includes('£') || s.includes('GBP')) return 'GBP';
+        if (s.includes('RP') || s.includes('IDR')) return 'IDR';
+        if (s.includes('RM') || s.includes('MYR')) return 'MYR';
+        if (s.includes('¥') || s.includes('JPY') || s.includes('RMB') || s.includes('CNY')) return 'JPY'; // assuming JPY for ¥
+        if (s.includes('₹') || s.includes('INR')) return 'INR';
+        if (s.includes('S$') || s.includes('SGD')) return 'SGD';
+        if (s.includes('C$') || s.includes('CAD')) return 'CAD';
+        if (s.includes('A$') || s.includes('AUD')) return 'AUD';
+        if (s.includes('HK$') || s.includes('HKD')) return 'HKD';
+        if (s.includes('CA$')) return 'CAD';
+        if (s.includes('AU$')) return 'AUD';
+        if (s.includes('US$') || s.includes('USD')) return 'USD';
+        if (s.includes('$')) return 'USD';
+        return '';
+    }
+
     // This function is executed in the page context
     const url = window.location.href;
+
     const hostname = window.location.hostname;
 
     let item = null;
@@ -191,6 +216,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: parsePrice(originalPrice),
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Amazon'
             };
         }
@@ -208,6 +234,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'eBay'
             };
         }
@@ -225,6 +252,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Walmart'
             };
         }
@@ -242,6 +270,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Target'
             };
         }
@@ -259,6 +288,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Best Buy'
             };
         }
@@ -276,6 +306,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Etsy'
             };
         }
@@ -293,6 +324,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'AliExpress'
             };
         }
@@ -310,6 +342,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'ASOS'
             };
         }
@@ -327,6 +360,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Zara'
             };
         }
@@ -344,6 +378,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Nike'
             };
         }
@@ -361,6 +396,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Tokopedia'
             };
         }
@@ -378,6 +414,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Shopee'
             };
         }
@@ -395,6 +432,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'TikTok Shop'
             };
         }
@@ -412,6 +450,7 @@ function extractItemData() {
                 image: image || '',
                 price: parsePrice(price),
                 originalPrice: null,
+                currency: getCurrency(price || (typeof originalPrice !== "undefined" ? originalPrice : "")),
                 site: 'Blibli'
             };
         }
@@ -423,29 +462,61 @@ function extractItemData() {
 /**
  * Parse price string to number
  */
+function extractCurrency(priceStr) {
+    if (!priceStr) return '';
+    const s = priceStr.toUpperCase();
+    if (s.includes('€') || s.includes('EUR')) return 'EUR';
+    if (s.includes('£') || s.includes('GBP')) return 'GBP';
+    if (s.includes('RP') || s.includes('IDR')) return 'IDR';
+    if (s.includes('RM') || s.includes('MYR')) return 'MYR';
+    if (s.includes('¥') || s.includes('JPY') || s.includes('RMB') || s.includes('CNY')) return 'JPY'; // assuming JPY for ¥
+    if (s.includes('₹') || s.includes('INR')) return 'INR';
+    if (s.includes('S$') || s.includes('SGD')) return 'SGD';
+    if (s.includes('C$') || s.includes('CAD')) return 'CAD';
+    if (s.includes('A$') || s.includes('AUD')) return 'AUD';
+    if (s.includes('HK$') || s.includes('HKD')) return 'HKD';
+    if (s.includes('CA$')) return 'CAD';
+    if (s.includes('AU$')) return 'AUD';
+    if (s.includes('US$') || s.includes('USD')) return 'USD';
+    if (s.includes('$')) return 'USD';
+    return '';
+}
+
 function parsePrice(priceStr) {
     if (!priceStr) return null;
 
-    // Remove currency symbols and non-numeric characters except decimal point
     const cleaned = priceStr.replace(/[^\d.,]/g, '');
+    if (!cleaned) return null;
 
-    // Handle different decimal separators
-    const hasComma = cleaned.includes(',');
-    const hasDot = cleaned.includes('.');
+    const lastComma = cleaned.lastIndexOf(',');
+    const lastDot = cleaned.lastIndexOf('.');
 
     let numStr;
-    if (hasComma && hasDot) {
-        // If both, assume last one is decimal separator
+    if (lastComma !== -1 && lastDot !== -1) {
+        const lastPunct = Math.max(lastComma, lastDot);
         numStr = cleaned.replace(/[.,]/g, (match, offset) => {
-            return offset === cleaned.lastIndexOf(match) ? '.' : '';
+            return offset === lastPunct ? '.' : '';
         });
-    } else if (hasComma) {
-        // Check if comma is decimal or thousands separator
+    } else if (lastComma !== -1) {
         const parts = cleaned.split(',');
-        if (parts.length === 2 && parts[1].length <= 2) {
+        if (parts.length === 2 && parts[1].length !== 3) {
             numStr = cleaned.replace(',', '.');
         } else {
             numStr = cleaned.replace(/,/g, '');
+        }
+    } else if (lastDot !== -1) {
+        const parts = cleaned.split('.');
+        let isThousands = parts.length > 1;
+        for (let i = 1; i < parts.length; i++) {
+            if (parts[i].length !== 3) {
+                isThousands = false;
+                break;
+            }
+        }
+        if (isThousands) {
+            numStr = cleaned.replace(/\./g, '');
+        } else {
+            numStr = cleaned;
         }
     } else {
         numStr = cleaned;
@@ -485,7 +556,7 @@ function updatePageStatus(status, message) {
  */
 function displayItemPreview(item) {
     previewTitle.textContent = item.title || 'Unknown Item';
-    previewPrice.textContent = formatPrice(item.price);
+    previewPrice.textContent = formatPrice(item.price, item.currency);
 
     if (item.image) {
         previewImage.src = item.image;
@@ -495,7 +566,7 @@ function displayItemPreview(item) {
     }
 
     if (item.originalPrice && item.originalPrice > item.price) {
-        previewOriginalPrice.textContent = formatPrice(item.originalPrice);
+        previewOriginalPrice.textContent = formatPrice(item.originalPrice, item.currency);
         previewOriginalPrice.classList.remove('hidden');
     } else {
         previewOriginalPrice.classList.add('hidden');
@@ -507,9 +578,10 @@ function displayItemPreview(item) {
  */
 function updateStats(items) {
     const totalItems = items.length;
+    const totalValue = items.reduce((sum, item) => sum + convertToUSD(item.price || 0, item.currency), 0);
     const totalSavings = items.reduce((sum, item) => {
         if (item.originalPrice && item.originalPrice > item.price) {
-            return sum + (item.originalPrice - item.price);
+            return sum + convertToUSD(item.originalPrice - item.price, item.currency);
         }
         return sum;
     }, 0);
@@ -517,7 +589,8 @@ function updateStats(items) {
     const priceDrops = items.filter(item => item.priceHistory && item.priceHistory.length > 1).length;
 
     document.getElementById('totalItems').textContent = totalItems;
-    document.getElementById('totalSavings').textContent = formatPrice(totalSavings);
+    document.getElementById('totalValue').textContent = formatPrice(totalValue, 'USD');
+    document.getElementById('totalSavings').textContent = formatPrice(totalSavings, 'USD');
     document.getElementById('priceDrops').textContent = priceDrops;
 }
 
@@ -546,7 +619,7 @@ function renderRecentItems(items) {
       <div class="item-info">
         <h3 class="item-title">${truncateText(item.title, 40)}</h3>
         <div class="item-meta">
-          <span class="item-price">${formatPrice(item.price)}</span>
+          <span class="item-price">${formatPrice(item.price, item.currency)}</span>
           <span class="item-site">${item.site}</span>
         </div>
       </div>
@@ -596,6 +669,7 @@ async function addToWishlist() {
             discount: currentItem.originalPrice && currentItem.price
                 ? Math.round(((currentItem.originalPrice - currentItem.price) / currentItem.originalPrice) * 100)
                 : 0,
+            currency: currentItem.currency || 'USD',
             site: currentItem.site,
             category: 'Uncategorized',
             tags: [],
